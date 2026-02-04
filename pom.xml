@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.akshansh</groupId>
     <artifactId>JDBC_REST_API</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>JDBC_REST_API</name>
     <description>JDBC_REST_API</description>
     <url/>
