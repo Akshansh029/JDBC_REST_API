@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -37,7 +38,7 @@ public class BorrowingRecordRepository {
         return jdbc.queryForObject(sql, new BorrowingRecordRowMapper(), id );
     }
 
-    public int markAsReturned(int id, LocalDate returnDate){
+    public int markAsReturned(int id, Date returnDate){
         String sql = "UPDATE borrowing_records SET return_date = ? WHERE id = ?";
         return jdbc.update(sql, returnDate, id);
     }
