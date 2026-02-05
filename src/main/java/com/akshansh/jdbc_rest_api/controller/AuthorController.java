@@ -2,6 +2,7 @@ package com.akshansh.jdbc_rest_api.controller;
 
 import com.akshansh.jdbc_rest_api.model.Author;
 import com.akshansh.jdbc_rest_api.service.AuthorService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,10 @@ public class AuthorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAuthor(@PathVariable int id){
+    public ResponseEntity<String> deleteAuthor(@PathVariable int id){
+        if(authorService.getAuthorById(id).isEmpty()){
+            return ResponseEntity.badRequest().body("No author with given id");
+        }
         authorService.deleteAuthorById(id);
         return ResponseEntity.noContent().build();
     }

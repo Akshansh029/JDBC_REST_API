@@ -42,7 +42,7 @@ public class BorrowingRecordService {
         // Update available_copies and save book
         Book book = booksRepo.findById(record.getBookId());
         book.setAvailableCopies(book.getAvailableCopies() + 1);
-        booksRepo.save(book);
+        booksRepo.update(book);
 
         // Update and save record
         repo.markAsReturned(recordId, returnDate);

@@ -34,7 +34,8 @@ public class AuthorRepository {
         return jdbc.update(sql,
                 author.getName(),
                 author.getCountry(),
-                author.getBirthYear()
+                author.getBirthYear(),
+                author.getId()
         );
     }
 
