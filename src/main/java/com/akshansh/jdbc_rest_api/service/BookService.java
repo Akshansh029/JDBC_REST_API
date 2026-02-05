@@ -57,7 +57,12 @@ public class BookService {
 
     /*
     public List<Book> getBookWithAuthorDetails(int bookId){
-        repo.findBooksWithAuthorName(bookId);
+        try{
+            Book book = repo.findBookWithAuthorName(bookId);
+            return Optional.of(book);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
      */
 }
