@@ -47,7 +47,7 @@ public class AuthorService {
         repo.deleteById(id);
     }
 
-    public List<Author> findAuthorsByCountry(String country){
+    public List<Author> getAuthorsByCountry(String country){
         return repo.findByCountry(country);
     }
 }
