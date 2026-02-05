@@ -23,8 +23,7 @@ public class BorrowingRecordService {
     }
 
     @Transactional
-    public void borrowBook(int bookId, String borrowerName, Date borrowDate) throws IllegalStateException{
-    Book book = booksRepo.findById(bookId);
+    public void borrowBook(int bookId, String borrowerName, Date borrowDate) throws IllegalStateException{Book book = booksRepo.findById(bookId);
 
         if(book.getAvailableCopies() <= 0){
             throw new IllegalStateException("No available copies for this book");
