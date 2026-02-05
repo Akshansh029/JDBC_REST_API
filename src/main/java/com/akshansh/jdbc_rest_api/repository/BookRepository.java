@@ -65,7 +65,7 @@ public class BookRepository {
     }
 
     /*
-    public List<Book> findBooksWithAuthorName(){
+    public List<Book> findBooksWithAuthorName(int id){
         String sql = "SELECT " +
                 "    books.id," +
                 "    books.title," +
@@ -74,9 +74,10 @@ public class BookRepository {
                 "    books.available_copies," +
                 "    authors.name AS author_name" +
                 "FROM books" +
-                "INNER JOIN authors ON books.author_id = authors.id;";
+                "INNER JOIN authors ON books.author_id = authors.id" +
+                "WHERE books.id = ?";
 
-        return jdbc.query(sql, new BookRowMapper());
+        return jdbc.query(sql, new BookRowMapper(), id);
     }
      */
 }
