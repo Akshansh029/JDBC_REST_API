@@ -1,16 +1,16 @@
 package com.akshansh.jdbc_rest_api.model;
 
 public class Book {
-    private int id;
+    private Integer id;
     private String title;
     private String isbn;
-    private int authorId;
+    private Integer authorId;
     private int publishedYear;
     private int availableCopies;
 
     public Book(){}
 
-    public Book(int id, String title, String isbn, int authorId, int publishedYear, int availableCopies) {
+    public Book(Integer id, String title, String isbn, Integer authorId, int publishedYear, int availableCopies) {
         this.id = id;
         this.title = title;
         this.isbn = isbn;
@@ -19,11 +19,11 @@ public class Book {
         this.availableCopies = availableCopies;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public int getAuthorId() {
+    public Integer getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
     }
 

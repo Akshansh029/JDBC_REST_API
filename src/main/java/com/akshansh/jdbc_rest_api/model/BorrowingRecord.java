@@ -1,18 +1,16 @@
 package com.akshansh.jdbc_rest_api.model;
-
-import java.time.LocalDate;
 import java.util.Date;
 
 public class BorrowingRecord {
-    private int id;
-    private int bookId;
+    private Integer id;
+    private Integer bookId;
     private String borrowerName;
-    private LocalDate borrowerDate;
-    private LocalDate returnDate;
+    private Date borrowerDate;
+    private Date returnDate;
 
     public BorrowingRecord(){}
 
-    public BorrowingRecord(int id, int bookId, String borrowerName, LocalDate borrowerDate, LocalDate returnDate) {
+    public BorrowingRecord(Integer id, Integer bookId, String borrowerName, Date borrowerDate, Date returnDate) {
         this.id = id;
         this.bookId = bookId;
         this.borrowerName = borrowerName;
@@ -20,19 +18,19 @@ public class BorrowingRecord {
         this.returnDate = returnDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getBookId() {
+    public Integer getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
@@ -44,19 +42,19 @@ public class BorrowingRecord {
         this.borrowerName = borrowerName;
     }
 
-    public LocalDate getBorrowerDate() {
+    public Date getBorrowerDate() {
         return borrowerDate;
     }
 
-    public void setBorrowerDate(LocalDate borrowerDate) {
+    public void setBorrowerDate(Date borrowerDate) {
         this.borrowerDate = borrowerDate;
     }
 
-    public LocalDate getReturnDate() {
+    public Date getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
+    public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
 
