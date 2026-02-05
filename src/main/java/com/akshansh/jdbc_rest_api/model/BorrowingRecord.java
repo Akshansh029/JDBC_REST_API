@@ -1,17 +1,18 @@
 package com.akshansh.jdbc_rest_api.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class BorrowingRecord {
     private int id;
     private int bookId;
     private String borrowerName;
-    private Date borrowerDate;
-    private Date returnDate;
+    private LocalDate borrowerDate;
+    private LocalDate returnDate;
 
     public BorrowingRecord(){}
 
-    public BorrowingRecord(int id, int bookId, String borrowerName, Date borrowerDate, Date returnDate) {
+    public BorrowingRecord(int id, int bookId, String borrowerName, LocalDate borrowerDate, LocalDate returnDate) {
         this.id = id;
         this.bookId = bookId;
         this.borrowerName = borrowerName;
@@ -43,19 +44,19 @@ public class BorrowingRecord {
         this.borrowerName = borrowerName;
     }
 
-    public Date getBorrowerDate() {
+    public LocalDate getBorrowerDate() {
         return borrowerDate;
     }
 
-    public void setBorrowerDate(Date borrowerDate) {
+    public void setBorrowerDate(LocalDate borrowerDate) {
         this.borrowerDate = borrowerDate;
     }
 
-    public Date getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 

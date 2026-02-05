@@ -13,8 +13,8 @@ public class BorrowingRecordRowMapper implements RowMapper<BorrowingRecord> {
         record.setId(rs.getInt("id"));
         record.setBookId(rs.getInt("book_id"));
         record.setBorrowerName(rs.getString("borrower_name"));
-        record.setBorrowerDate(rs.getDate("borrower_date"));
-        record.setReturnDate(rs.getDate("return_date"));
+        record.setBorrowerDate(rs.getDate("borrower_date").toLocalDate());
+        record.setReturnDate(rs.getDate("return_date").toLocalDate());
         return record;
     }
 }
