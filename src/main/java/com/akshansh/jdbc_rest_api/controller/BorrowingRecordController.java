@@ -2,6 +2,8 @@ package com.akshansh.jdbc_rest_api.controller;
 
 import com.akshansh.jdbc_rest_api.dto.BorrowBookRequest;
 import com.akshansh.jdbc_rest_api.dto.ReturnBookRequest;
+import com.akshansh.jdbc_rest_api.exceptions.ResourceNotFoundException;
+import com.akshansh.jdbc_rest_api.exceptions.ValidationException;
 import com.akshansh.jdbc_rest_api.model.BorrowingRecord;
 import com.akshansh.jdbc_rest_api.service.BorrowingRecordService;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +41,14 @@ public class BorrowingRecordController {
     public ResponseEntity<BorrowingRecord> getRecordById(@PathVariable int id){
         return recordService.getRecordById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Not found borrowing record with id: " + id));
     }
 
     @PostMapping("/borrow")
     public ResponseEntity<String> borrowBook(@RequestBody BorrowBookRequest request){
+        if(request == null || request.getBorrowerName().isEmpty() || request.getBorrowDate() == null){
+            throw new ValidationException("Required fields of author are not valid");
+        }
         try{
             recordService.borrowBook(
                 request.getBookId(),
@@ -52,7 +57,7 @@ public class BorrowingRecordController {
             );
             return ResponseEntity.ok("Book borrowed");
         } catch(IllegalStateException e){
-            return ResponseEntity.badRequest().body("No available copies");
+            throw new ResourceNotFoundException("No available copies");
         }
     }
 
@@ -61,10 +66,10 @@ public class BorrowingRecordController {
         Optional<BorrowingRecord> record = recordService.getRecordById(id);
 
         if(record.isEmpty()){
-            return ResponseEntity.badRequest().body("No record with given id");
+            throw new ResourceNotFoundException("No record with given id");
         } else{
             if(record.get().getReturnDate() != null){
-                return ResponseEntity.badRequest().body("Book already returned");
+                throw new ValidationException("Book already returned");
             }
             recordService.returnBook(id, request.getReturnDate());
             return ResponseEntity.ok().body("Book returned successfully");
@@ -78,6 +83,9 @@ public class BorrowingRecordController {
 
     @GetMapping("/borrower/{name}")
     public List<BorrowingRecord> getRecordsByBorrowerName(@PathVariable String name){
+        if(name.isEmpty()){
+            throw new ValidationException("Name cannot be empty");
+        }
         return recordService.getRecordsByBorrowerName(name);
     }
 }

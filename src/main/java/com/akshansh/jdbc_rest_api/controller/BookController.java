@@ -1,5 +1,7 @@
 package com.akshansh.jdbc_rest_api.controller;
 
+import com.akshansh.jdbc_rest_api.exceptions.ResourceNotFoundException;
+import com.akshansh.jdbc_rest_api.exceptions.ValidationException;
 import com.akshansh.jdbc_rest_api.model.Book;
 import com.akshansh.jdbc_rest_api.service.AuthorService;
 import com.akshansh.jdbc_rest_api.service.BookService;
@@ -41,7 +43,7 @@ public class BookController {
     public ResponseEntity<Book> getBookById(@PathVariable int id){
         return bookService.getBookById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Not found book with id: " + id));
     }
 
     @PostMapping
@@ -52,6 +54,9 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book book){
+        if(book == null || book.getTitle().isEmpty() || book.getIsbn().isEmpty() || book.getPublishedYear() <= 0){
+            throw new ValidationException("Required fields of book are not valid");
+        }
         book.setId(id);
         Book updated = bookService.updateBook(book);
         return ResponseEntity.ok(updated);
@@ -59,6 +64,9 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable int id){
+        if(bookService.getBookById(id).isEmpty()){
+            throw new ResourceNotFoundException("No book with given id to delete");
+        }
         bookService.deleteBookById(id);
         return ResponseEntity.noContent().build();
     }

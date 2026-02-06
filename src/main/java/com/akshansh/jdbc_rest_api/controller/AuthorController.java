@@ -1,8 +1,9 @@
 package com.akshansh.jdbc_rest_api.controller;
 
+import com.akshansh.jdbc_rest_api.exceptions.ResourceNotFoundException;
+import com.akshansh.jdbc_rest_api.exceptions.ValidationException;
 import com.akshansh.jdbc_rest_api.model.Author;
 import com.akshansh.jdbc_rest_api.service.AuthorService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,18 +39,24 @@ public class AuthorController {
         return authorService.getAuthorById(id)
                 // if author is present, return ResponseEntity.ok(author)   (HTTP OK 200)
                 .map(ResponseEntity::ok)
-                // if author is not present, return ResponseEntity.notFound().build()   (HTTP 404 NOT FOUND)
-                .orElse(ResponseEntity.notFound().build());
+                // if author is not present, return ResourceNotFoundException   (HTTP 404 NOT FOUND)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found author with id: " + id));
     }
 
     @PostMapping
     public ResponseEntity<Author> createAuthor(@RequestBody Author author){
+        if(author == null || author.getName().isEmpty() || author.getCountry().isEmpty() || author.getBirthYear() <= 0){
+            throw new ValidationException("Required fields of author are not valid");
+        }
         Author created = authorService.createAuthor(author);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable int id, @RequestBody Author author){
+        if(author == null || author.getName().isEmpty() || author.getCountry().isEmpty() || author.getBirthYear() <= 0){
+            throw new ValidationException("Required fields of author are not valid");
+        }
         author.setId(id);
         Author updated = authorService.updateAuthor(author);
         return ResponseEntity.ok(updated);
@@ -58,7 +65,7 @@ public class AuthorController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAuthor(@PathVariable int id){
         if(authorService.getAuthorById(id).isEmpty()){
-            return ResponseEntity.badRequest().body("No author with given id");
+            throw new ResourceNotFoundException("No author with given id to delete");
         }
         authorService.deleteAuthorById(id);
         return ResponseEntity.noContent().build();
@@ -66,6 +73,9 @@ public class AuthorController {
 
     @GetMapping("/country/{country}")
     public List<Author> getAuthorsByCountry(@PathVariable String country){
+        if(country.isEmpty()){
+            throw new ValidationException("Country field cannot be empty");
+        }
         return authorService.getAuthorsByCountry(country);
     }
 }
